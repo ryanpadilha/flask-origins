@@ -1,29 +1,35 @@
-#
-# Dockerfile -- Container Image for Debian 9.3 / Python 3.x
-#
-# build : docker build -f debian-oracle-java8.dockerfile -t debian-oracle-java8 .
-# tag   : docker tag debian-oracle-java8 wplex/debian-oracle-java8:latest
-# push  : docker push wplex/debian-oracle-java8
-#
+##
+# docker-container for Python 3.5
+##
+# generate-image  : docker build -t flask-origins --build-arg VERSION=1.0.0 .
+# tag-image       : docker tag flask-origins wplex/flask-origins:latest
+# push-image      : docker push wplex/flask-origins
+##
+# run-container   : docker run -d -p 8000:8000 --name flask_origins flask-origins
+# container-limit : docker run --memory=750m --memory-swap=750m --oom-kill-disable -d -p 8000:8000 --name flask_origins flask-origins
+##
+# save-image : sudo docker save flask-origins > /var/company/devops/flask-origins-docker.tar
+# load-image : docker load < /var/company/devops/flask-origins-docker.tar
+##
 
-FROM debian:latest
+FROM debian-python3
 LABEL maintainer="Ryan Padilha <ryan.padilha@gmail.com>"
 
-RUN \
-  apt-get update \
-  && apt-get install -f \
-  && apt-get install -y wget gnupg \
-  && apt-get install -y oracle-java8-installer \
-  && rm -rf /var/lib/apt/lists/*
+# define commonly used variables
+ENV APP_DIR /var/company/www/flask-origins
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+ARG VERSION
+ENV VERSION $VERSION
 
+# define working directory
+RUN mkdir -p /var/company/www
+WORKDIR /var/company/www
+ADD target/flask-origins-$VERSION.tar.gz .
 
-RUN apt-get update \
-  && apt-get install -y python3-pip python3-dev python3-venv \
-  && cd /usr/local/bin \
-  && ln -s /usr/bin/python3 python \
-  && pip3 install --upgrade pip
+EXPOSE 8000
 
-ENTRYPOINT ["python3"]
+RUN pip install --upgrade pip
+RUN pip install -r $APP_DIR/bin/requirements.txt
+RUN mkdir -p /var/company/logs/flask-origins
 
+ENTRYPOINT /usr/local/bin/gunicorn -w 3 --bind=0.0.0.0:8000 --user=root --log-level=debug --log-file=/var/company/logs/flask-origins/gunicorn.log 2>>/var/company/logs/flask-origins/gunicorn.log wsgi:application
