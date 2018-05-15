@@ -19,4 +19,4 @@ if [ -f $PID ]; then rm $PID; fi
 mkdir -p /var/company/logs/flask-origins
 
 to_console "start python application"
-exec gunicorn -w 3 --bind=0.0.0.0:9000 --user=ubuntu --log-level=debug --pid=$PID --log-file=/var/company/logs/flask-origins/gunicorn.log 2>>/var/company/logs/flask-origins/gunicorn.log wsgi:application &
+exec gunicorn -w 3 --bind=0.0.0.0:9000 --user=root --log-level=debug --pid=$PID --log-file=/var/company/logs/flask-origins/gunicorn.log 2>>/var/company/logs/flask-origins/gunicorn.log wsgi:application &
