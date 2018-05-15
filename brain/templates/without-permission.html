@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="content-header">
+    <h1>&nbsp;</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('website.index') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Controle de Acesso</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="error-page text-center">
+        <h2 class="text-danger text-center"><i class="fa fa-fw fa-frown-o fa-lg text-danger"></i> Permissão negada!</h2><br>
+        <div class="body">
+            <p class="lead semi-bold">
+                <strong>Ooooops! <br>Você não tem permissão para acessar este recurso.</strong><br><br>
+                <small>
+				    Em caso de dúvida entre em contato com o administrador.
+                </small>
+            </p><br>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+			    <ul class="list-inline">
+				    <li>&nbsp;<a href="#" onclick="javascript:history.go(-1);">Voltar</a>&nbsp;</li>
+					<li>.</li>
+					<li>&nbsp;<a href="{{ url_for('website.index') }}">Página Inicial</a>&nbsp;</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

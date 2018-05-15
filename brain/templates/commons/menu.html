@@ -1,0 +1,105 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <div class="user-panel">
+            <div class="pull-left image">
+                {% if current_user.file_name %}
+				    <img src="{{ current_user.file_url }}" alt="{{ current_user.name }}" class="img-circle" />
+				{% else %}
+				    <img src="{{ url_for('static', filename='dist/img/default-profile.jpg') }}" alt="{{ current_user.name }}" class="img-circle" />
+				{% endif %}
+            </div>
+            <div class="pull-left info">
+                <p>
+                    {% if current_user.is_authenticated %}
+				        {{ current_user.name }}
+				    {% endif %}
+                </p>
+                <a href="#"><i class="fa fa-circle-o text-yellow"></i>
+                    {% if current_user.is_authenticated %}
+				        {% if current_user.company %}
+                            {{ current_user.occupation }}
+                        {% else %}
+                            {{ current_user.company }}
+                        {% endif %}
+				    {% endif %}
+                </a>
+            </div>
+        </div>
+
+        {#
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                  </span>
+            </div>
+        </form>
+        #}
+
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MAIN NAVIGATION</li>
+            <li {% if request.endpoint.endswith(('index')) %} class="active" {% endif %}>
+                <a href="{{ url_for('website.index') }}">
+                    <i class="fa fa-th"></i> <span>Página Inicial</span>
+                </a>
+            </li>
+            <li {% if request.endpoint.endswith(('list_users', 'form_user', 'edit_user',
+                                                'list_client_secrets', 'form_client_secret', 'edit_client_secret',
+                                                'list_groups', 'form_group', 'edit_group')) %} class="treeview active menu-open" {% else %} class="treeview" {% endif %}>
+                <a href="#">
+                    <i class="fa fa-laptop"></i> <span>Configuração</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li {% if request.endpoint.endswith(('list_groups', 'form_group', 'edit_group')) %} class="active" {% endif %}>
+                        <a href="{{ url_for('auth.list_groups') }}"><i class="fa fa-circle-o"></i> Grupo de Acesso</a>
+                    </li>
+                    <li {% if request.endpoint.endswith(('list_users', 'form_user', 'edit_user')) %} class="active" {% endif %}>
+                        <a href="{{ url_for('auth.list_users') }}"><i class="fa fa-circle-o"></i> Usuários</a>
+                    </li>
+                    <li {% if request.endpoint.endswith(('list_client_secrets', 'form_client_secret', 'edit_client_secret')) %} class="active" {% endif %}>
+                        <a href="{{ url_for('auth.list_client_secrets') }}"><i class="fa fa-circle-o"></i> Auth REST API</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li {% if request.endpoint.endswith(('list_clients', 'form_client', 'edit_client')) %} class="treeview active menu-open" {% else %} class="treeview" {% endif %}>
+                <a href="#">
+                    <i class="fa fa-table"></i> <span>Parametrização</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li {% if request.endpoint.endswith(('list_clients', 'form_client', 'edit_client')) %} class="active" {% endif %}>
+                        <a href="{{ url_for('parameter.list_clients') }}"><i class="fa fa-circle-o"></i> Controle de Cliente</a>
+                    </li>
+                </ul>
+            </li>
+            {#
+            <!--
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-files-o"></i>
+                    <span>Layout Options</span>
+                    <span class="pull-right-container">
+                        <span class="label label-primary pull-right">4</span>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
+                    <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
+                    <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
+                    <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                </ul>
+            </li>
+            -->
+            #}
+        </ul>
+    </section>
+</aside>

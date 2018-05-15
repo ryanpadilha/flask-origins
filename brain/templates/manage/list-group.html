@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="content-header">
+    <h1>&nbsp;</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('website.index') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li>Parametrização</li>
+        <li class="active">Cadastro de Grupo de Acesso</li>
+    </ol>
+</section>
+
+<section class="content">
+    {% include 'commons/messages.html' %}
+
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Relação de grupos de acesso</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-header" style="width: 150px;">
+        	<a href="{{ url_for('auth.form_group') }}">
+        	    <button type="button" class="btn btn-block btn-primary">Novo Cadastro</button>
+        	</a>
+        </div>
+        <div class="box-body">
+            <table id="dt_basic" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Sigla</th>
+                        <th>Descrição</th>
+                        <th>Data Criação</th>
+                        <th class="text-center footable-visible footable-last-column">Edit</th>
+                        <th class="text-center footable-visible footable-last-column">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for group in groups %}
+                <tr>
+                	<td>{{ group.name }}</td>
+                    <td>{{ group.type }}</td>
+                    <td>{{ group.description }}</td>
+                    <td>{{ group.created.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+                	<td class="text-center footable-visible footable-last-column">
+                		<a href="{{ url_for('auth.edit_group', internal=group.internal) }}">
+                			<button type="button" class="btn bg-navy btn-xs"><i class="fa fa-edit"></i></button>
+                		</a>
+                	</td>
+                	<td class="text-center footable-visible footable-last-column">
+                		<button type="button" class="open-modal btn btn-danger btn-xs" data-toggle="modal"
+                			data-target="#modal-default"  data-id="{{ group.internal }}"><i class="fa fa-trash-o"></i></button>
+                	</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer"></div>
+    </div>
+
+    <!-- /.modal -->
+    <div class="modal fade" tabindex="-1" id="modal-default">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="fa fa-warning"></i>&nbsp;Confirmação</h4>
+                </div>
+
+                <form role="form" method="POST" action="{{ url_for('auth.delete_group') }}">
+	                <div class="modal-body">
+	                    <p>Deseja realmente <strong>deletar o registro?</strong></p>
+	                </div>
+	                <div class="modal-footer">
+	              	    <input type="hidden" id="recordId" name="recordId">
+	                    <button type="submit" class="btn btn-danger pull-right" style="width: 100px;"><i class="fa fa-trash-o"></i>&nbsp;Deletar</button>
+	                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal" style="width: 100px; margin-right: 5px;"><i class="fa fa-times"></i>&nbsp;Cancelar</button>
+	                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

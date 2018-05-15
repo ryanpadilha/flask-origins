@@ -1,0 +1,60 @@
+{% extends "auth/auth-layout.html" %}
+{% block content %}
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><b>Origins</b></a>
+    </div>
+
+    <div class="login-box-body">
+        {% include 'commons/messages.html' %}
+
+        <p class="login-box-msg">Login</p>
+        <form action="{{ url_for('auth.login') }}" method="post">
+        <div {% if form.email.errors %} class="form-group has-error" {% else %} class="form-group has-feedback" {% endif %}>
+            {{ form.email.label }}
+            {{ form.email(class_="form-control") }}
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+
+            {% for error in form.email.errors %}
+                <span class="help-block">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div {% if form.password.errors %} class="form-group has-error" {% else %} class="form-group has-feedback" {% endif %}>
+            {{ form.password.label }}
+            {{ form.password(class_="form-control") }}
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+
+            {% for error in form.password.errors %}
+                <span class="help-block">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="checkbox icheck">
+                    <label>{{ form.remember_me }} <i></i>{{ form.remember_me.label }}</label>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                {{ form.hidden_tag() }}
+                <input type="hidden" value="{{ next or '' }}" name="next" id="next">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+            </div>
+        </div>
+    </form>
+      {#
+        <!--
+        <div class="social-auth-links text-center">
+          <p>- OR -</p>
+          <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
+            Facebook</a>
+          <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
+            Google+</a>
+        </div>
+
+        <a href="#">I forgot my password</a><br>
+        <a href="register.html" class="text-center">Register a new membership</a>
+        -->
+      #}
+    </div>
+</div>
+{% endblock %}
