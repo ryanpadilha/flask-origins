@@ -7,7 +7,7 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 APP_DIR = os.path.abspath(os.curdir)
 
 SECRET_KEY = 'Rest&gaze=Music-tin-falcon!bunk'
-SQLALCHEMY_DATABASE_URI = 'postgresql://origins:origins@localhost:5432/dev_origins'
+SQLALCHEMY_DATABASE_URI = 'postgresql://origins:origins@18.231.79.248:5492/origins_demo'
 
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(APP_DIR, 'origins.db')
 
