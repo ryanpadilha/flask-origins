@@ -9,7 +9,7 @@ click==6.7
 Cython==0.27.3
 docutils==0.14
 dominate==2.3.1
-Flask==0.12.1
+Flask==1.0
 Flask-Cache==0.13.1
 Flask-ErrorHandler==0.1.0
 Flask-Login==0.4.1
